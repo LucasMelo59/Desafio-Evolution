@@ -13,9 +13,8 @@ public class UserServiceImpl implements UserService {
     private PessoaRepository pessoaRepository;
     @Override
     public User cadastrar(User user) {
-        User newUser = new User(user.getCpf(), user.getNome(), user.getEmail(), user.getCep(),user.getLongradouro(), user.getComplemento(), user.getBairro(), user.getUf(), user.getContatos());
-        pessoaRepository.save(newUser);
-        return newUser;
+        pessoaRepository.save(user);
+        return user;
     }
 
     @Override
@@ -30,6 +29,5 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void remover(int id) {
-
     }
 }
