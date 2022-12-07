@@ -1,5 +1,7 @@
 package br.com.evolution.pessoas.model.entities;
 
+import jakarta.persistence.Entity;
+
 public class ContatoUser {
 
     private User pessoa;
