@@ -2,11 +2,14 @@ package br.com.evolution.pessoas.service;
 
 import br.com.evolution.pessoas.model.entities.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
     public User cadastrar(User user);
+
+    public List<User> listaDeUsuarios();
 
     public Optional<User> detalhar(int id);
 

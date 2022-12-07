@@ -21,7 +21,7 @@ public class UserController {
 
     @GetMapping
     public List<User> listar(){
-        return null;
+        return userService.listaDeUsuarios();
     }
     @PostMapping
     @Transactional
@@ -34,5 +34,7 @@ public class UserController {
         return userService.detalhar(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objeto não encontrado"));
     }
 
-
+    public void delete(int id){
+        userService.remover(id);
+    }
 }
