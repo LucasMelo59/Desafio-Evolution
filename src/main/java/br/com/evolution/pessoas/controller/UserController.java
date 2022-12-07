@@ -25,16 +25,26 @@ public class UserController {
     }
     @PostMapping
     @Transactional
-    public User newUser(@Valid User user){
+    public User newUser(@Valid @RequestBody User user){
     return userService.cadastrar(user);
     }
 
     @GetMapping("/{id}")
-    public User detalhar(@PathVariable int id){
+    public User detalhar(@PathVariable("id") int id){
         return userService.detalhar(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objeto não encontrado"));
     }
 
-    public void delete(int id){
+    @PutMapping("/{id}")
+    @Transactional
+    public User atualizar(@PathVariable("id") int id,@RequestBody @Valid User user){
+        return userService.atualizar(id,user).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+    }
+
+
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") int id){
         userService.remover(id);
     }
 }
