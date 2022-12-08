@@ -1,9 +1,11 @@
 package br.com.evolution.pessoas.service.impl;
 
-import br.com.evolution.pessoas.form.AtualizacaoUsers;
+import br.com.evolution.pessoas.dto.UserDto;
+import br.com.evolution.pessoas.exceptions.ObjectNotFoundException;
 import br.com.evolution.pessoas.model.entities.User;
 import br.com.evolution.pessoas.model.repositories.PessoaRepository;
 import br.com.evolution.pessoas.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     @Autowired
     private PessoaRepository pessoaRepository;
+
+    @Autowired
+    private ModelMapper mapper;
     @Override
     public User cadastrar(User user) {
         pessoaRepository.save(user);
@@ -28,18 +33,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> detalhar(int id) {
-        return pessoaRepository.findById(id);
+    public User detalhar(int id) {
+        Optional<User> obj  =  pessoaRepository.findById(id);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objetvo nao encontrado"));
     }
 
     @Override
-    public Optional<User> atualizar(int id, AtualizacaoUsers Atualizacaouser) {
-        Optional<User> users = pessoaRepository.findById(id);
-        users.ifPresent( t -> {
-            t = Atualizacaouser;
-            pessoaRepository.saveAndFlush(t);
-        });
-        return users;
+    public User atualizar(UserDto userDto) {
+        return pessoaRepository.save(mapper.map(userDto, User.class)) ;
     }
 
     @Override

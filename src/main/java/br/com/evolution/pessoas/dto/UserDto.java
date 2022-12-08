@@ -1,8 +1,19 @@
-package br.com.evolution.pessoas.form;
+package br.com.evolution.pessoas.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public class AtualizacaoUsers {
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDto {
+
+    private int id;
     @NotNull(message = "preenche o cpf")
     private String cpf;
     @NotNull(message = "preenche o cpf")
@@ -14,4 +25,5 @@ public class AtualizacaoUsers {
     private String complemento;
     private String bairro;
     private String uf;
+
 }

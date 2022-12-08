@@ -1,5 +1,6 @@
 package br.com.evolution.pessoas.service;
 
+import br.com.evolution.pessoas.dto.UserDto;
 import br.com.evolution.pessoas.model.entities.User;
 
 import java.util.List;
@@ -11,9 +12,9 @@ public interface UserService {
 
     public List<User> listaDeUsuarios();
 
-    public Optional<User> detalhar(int id);
+    public User detalhar(int id);
 
-    public Optional<User> atualizar(int id, User user );
+    public User atualizar(UserDto userDto);
 
     public void remover(int id);
 }

@@ -1,11 +1,15 @@
 package br.com.evolution.pessoas.controller;
 
+import br.com.evolution.pessoas.dto.UserDto;
+import br.com.evolution.pessoas.exceptions.ObjectNotFoundException;
 import br.com.evolution.pessoas.model.entities.User;
 import br.com.evolution.pessoas.model.repositories.PessoaRepository;
 import br.com.evolution.pessoas.service.UserService;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +20,8 @@ import java.util.List;
 @RequestMapping("/pessoas")
 public class UserController {
 
+    @Autowired
+    private ModelMapper mapper;
     @Autowired
     private UserService userService;
 
@@ -30,16 +36,17 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User detalhar(@PathVariable("id") int id){
-        return userService.detalhar(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Objeto não encontrado"));
+    public ResponseEntity<UserDto> detalhar(@PathVariable(value = "id") int id){
+        return ResponseEntity.ok().body(mapper.map(userService.detalhar(id), UserDto.class));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}")
     @Transactional
-    public User atualizar(@PathVariable("id") int id,@RequestBody @Valid User user){
-        return userService.atualizar(id,user).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+    public ResponseEntity<UserDto> atualizar(@PathVariable Integer id ,@RequestBody @Valid UserDto userDto){
+        userDto.setId(id);
+        User newUser = userService.atualizar(userDto);
+        return ResponseEntity.ok().body(mapper.map(newUser, UserDto.class));
     }
-
 
 
     @DeleteMapping("/{id}")
