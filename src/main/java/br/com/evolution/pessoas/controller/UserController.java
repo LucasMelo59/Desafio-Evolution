@@ -31,8 +31,8 @@ public class UserController {
     }
     @PostMapping
     @Transactional
-    public User newUser(@Valid @RequestBody User user){
-    return userService.cadastrar(user);
+    public ResponseEntity<User> newUser(@Valid @RequestBody UserDto userDto){
+    return ResponseEntity.ok().body(userService.cadastrar(userDto));
     }
 
     @GetMapping("/{id}")
@@ -50,7 +50,6 @@ public class UserController {
 
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id){
         userService.remover(id);
     }

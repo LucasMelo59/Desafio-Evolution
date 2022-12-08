@@ -22,9 +22,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper mapper;
     @Override
-    public User cadastrar(User user) {
-        pessoaRepository.save(user);
-        return user;
+    public User cadastrar(UserDto userDto) {
+        return pessoaRepository.save(mapper.map(userDto, User.class));
     }
 
     @Override
@@ -49,7 +48,7 @@ public class UserServiceImpl implements UserService {
         if(remover.isPresent()){
             pessoaRepository.deleteById(id);
         } else {
-         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+         throw new ObjectNotFoundException("Objeto não encontrado");
         }
     }
 }

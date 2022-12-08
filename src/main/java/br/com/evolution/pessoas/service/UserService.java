@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    public User cadastrar(User user);
+    public User cadastrar(UserDto userDto);
 
     public List<User> listaDeUsuarios();
 
